@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fingerprint.com Tracking</title>
+</head>
+<body>
+  <h1>Fingerprint Test</h1>
+  <p>This page loads FingerprintJS Pro and sends data to your dashboard.</p>
+
+  <script>
+    // Initialize the agent on page load.
+    const fpPromise = import('https://fpjscdn.net/v3/rR7IahHmhHlmLUs5ExCD')
+      .then(FingerprintJS => FingerprintJS.load())
+
+    // Get the visitorId (for logging in dashboard).
+    fpPromise
+      .then(fp => fp.get())
+      .then(result => {
+        const visitorId = result.visitorId
+        console.log("Visitor ID:", visitorId)
+      })
+  </script>
+</body>
+</html>
