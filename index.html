@@ -2,24 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fingerprint.com Tracking</title>
+  <title>FraudLabs Pro Device Info</title>
 </head>
 <body>
-  <h1>Fingerprint Test</h1>
-  <p>This page loads FingerprintJS Pro and sends data to your dashboard.</p>
+  <h2>🔎 Visitor Device Information</h2>
+  <pre id="device-info">Loading...</pre>
+
+  <!-- FraudLabs Pro Agent Javascript -->
+  <script>
+    (function(){
+      function s() {
+        var e = document.createElement('script');
+        e.type = 'text/javascript';
+        e.async = true;
+        e.src = ('https:' === document.location.protocol ? 'https://' : 'http://') + 'cdn.fraudlabspro.com/s.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(e, s);
+      }			  
+      (window.attachEvent) ? window.attachEvent('onload', s) : window.addEventListener('load', s, false);
+    })();
+  </script>
 
   <script>
-    // Initialize the agent on page load.
-    const fpPromise = import('https://fpjscdn.net/v3/rR7IahHmhHlmLUs5ExCD')
-      .then(FingerprintJS => FingerprintJS.load())
+    // دالة للحصول على قيمة الكوكي
+    function getCookie(name) {
+      let value = "; " + document.cookie;
+      let parts = value.split("; " + name + "=");
+      if (parts.length === 2) return parts.pop().split(";").shift();
+    }
 
-    // Get the visitorId (for logging in dashboard).
-    fpPromise
-      .then(fp => fp.get())
-      .then(result => {
-        const visitorId = result.visitorId
-        console.log("Visitor ID:", visitorId)
-      })
+    async function checkVisitor() {
+      let checksum = getCookie("flp_checksum");
+      if (!checksum) {
+        document.getElementById("device-info").innerText = "⚠️ No checksum found yet.";
+        return;
+      }
+
+      let response = await fetch("https://api.fraudlabspro.com/v1/order/screen", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          key: "BXUZABI0BUHLX39XNQINOICMXNKQ7G8N", // API KEY الخاص بك
+          ip: "", // يكتشف تلقائياً
+          flp_checksum: checksum
+        })
+      });
+
+      let data = await response.json();
+
+      // عرض النتائج
+      document.getElementById("device-info").innerText = JSON.stringify(data, null, 2);
+    }
+
+    window.onload = function() {
+      setTimeout(checkVisitor, 2000); // ننتظر ثانيتين ليكون checksum جاهز
+    };
   </script>
 </body>
 </html>
+
