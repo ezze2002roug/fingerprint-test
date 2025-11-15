@@ -43,39 +43,5 @@
 </style>
 
 <script>
-  // تعريف callback أولاً
-  window.pdCallback = function(result) {
-    console.log("نتيجة الكشف:", result);
-
-    const outputEl = document.getElementById("output");
-    outputEl.textContent = JSON.stringify(result, null, 2);
-
-    const statusEl = document.getElementById("status");
-
-    if (result.proxy.isProxy || result.vpn.isVpn) {
-      statusEl.textContent = "🚫 تم الكشف عن بروكسي أو VPN";
-      statusEl.className = "status proxy-vpn";
-    } else {
-      statusEl.textContent = "✅ الاتصال مباشر";
-      statusEl.className = "status direct";
-    }
-  }
-</script>
-
-<script>
-  // تحميل مكتبة ProxyDetect من المصدر الصحيح
-  const pdKey = '6fd3408ae1a0bbb82070';
-  const pdVal = '12345';
-  const fullUrl = 'https://engine.proxydetect.live/pd-lib.js?pdKey=' + pdKey + '&pdVal=' + pdVal;
-  const pdsScript = document.createElement("script");
-  pdsScript.src = fullUrl;
-  document.head.appendChild(pdsScript);
-</script>
-
-</head>
-<body>
-<h1>كشف البروكسي / VPN</h1>
-<div id="status" class="status">جاري التحليل...</div>
-<pre id="output">جاري تحميل البيانات...</pre>
-</body>
-</html>
+  // تعريف callback قبل تحميل السكربت
+  window
