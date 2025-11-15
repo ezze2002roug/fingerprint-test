@@ -7,12 +7,17 @@
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f9;
+      color: #333;
       margin: 0;
       padding: 20px;
-      color: #333;
     }
     h1 {
       color: #2c3e50;
+    }
+    .status {
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 1.2em;
     }
     pre {
       background: #ecf0f1;
@@ -20,26 +25,19 @@
       border-radius: 8px;
       overflow-x: auto;
     }
-    .status {
-      margin-top: 15px;
-      font-weight: bold;
-      font-size: 1.1em;
-    }
   </style>
 
+  <!-- تحميل مكتبة ProxyDetect ديناميكيًا -->
   <script>
-    // مفتاح API
     const pdKey = '6fd3408ae1a0bbb82070';
-    // قيمة تعريف الجلسة أو المستخدم
     const pdVal = '12345';
 
-    // تحميل مكتبة ProxyDetect
     const fullUrl = 'https://engine.proxydetect.live/pd-lib.js?pdKey=' + pdKey + '&pdVal=' + pdVal;
     const pdsScript = document.createElement("script");
     pdsScript.src = fullUrl;
     document.head.appendChild(pdsScript);
 
-    // Callback عند اكتمال التحليل
+    // Callback عند اكتمال الكشف
     window.pdCallback = function(result) {
       console.log("نتيجة الكشف:", result);
 
@@ -47,7 +45,7 @@
       outputEl.textContent = JSON.stringify(result, null, 2);
 
       const statusEl = document.getElementById("status");
-      if (result.isProxy || result.isVPN) {
+      if (result.proxy.isProxy || result.vpn.isVpn) {
         statusEl.textContent = "تم الكشف عن بروكسي أو VPN 🚫";
         statusEl.style.color = "red";
       } else {
@@ -57,6 +55,7 @@
     }
   </script>
 </head>
+
 <body>
   <h1>كشف البروكسي / VPN</h1>
   <div class="status" id="status">جاري التحليل...</div>
