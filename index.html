@@ -1,19 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Proxy/VPN Detection Tests - Integration Example</title>
-  <script>
-    const pdKey = '6fd3408ae1a0bbb82070';
-    const pdVal = '12345';
-    const fullUrl = 'https://engine.proxydetect.live/pd-lib.js?pdKey=' + pdKey + '&pdVal=' + pdVal;
-    let pdsScript = document.createElement("script");
-    pdsScript.setAttribute("src", fullUrl);
-    document.head.appendChild(pdsScript);
-  </script>
+  <meta charset="UTF-8">
+  <title>ProxyDetect Test Page</title>
 </head>
+
 <body>
-  <h1>Proxy/VPN Detection Test</h1>
-  <p>Page loaded. The ProxyDetect script is now running.</p>
+
+<h2>Proxy/VPN Detection – Test Page</h2>
+<p>عند دخول أي متصفح لهذه الصفحة سيتم إرسال النتيجة إلى webhook.site تلقائياً.</p>
+
+<script>
+  // API key الخاصة بك
+  const pdKey = '6fd3408ae1a0bbb82070';
+
+  // قيمة يمكنك استخدامها للتمييز بين المستخدمين أثناء الاختبار
+  const pdVal = '12345';
+
+  // تحميل مكتبة الكشف
+  const fullUrl = 'https://engine.proxydetect.live/pd-lib.js?pdKey=' + pdKey + '&pdVal=' + pdVal;
+  let pdsScript = document.createElement("script");
+  pdsScript.setAttribute("src", fullUrl);
+  document.head.appendChild(pdsScript);
+</script>
+
 </body>
 </html>
